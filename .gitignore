@@ -3,10 +3,11 @@
 /local.properties
 /.idea/caches
 /.idea/libraries
-/.idea/modules.xml
+/.idea/modules.xmlVZzihCSMgPqBk6MV
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/docs/secret.md
 .DS_Store
 /build
 /captures
