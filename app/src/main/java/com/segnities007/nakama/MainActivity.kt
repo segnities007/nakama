@@ -16,7 +16,10 @@ import com.segnities007.nakama.ui.screens.Home
 import com.segnities007.nakama.ui.screens.Login
 import com.segnities007.nakama.ui.screens.Splash
 import com.segnities007.nakama.ui.theme.NakamaTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
