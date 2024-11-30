@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -59,4 +60,6 @@ dependencies {
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 }
