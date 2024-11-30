@@ -7,14 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.segnities007.nakama.ui.screens.Home
+import com.segnities007.nakama.ui.screens.Login
+import com.segnities007.nakama.ui.screens.Splash
 import com.segnities007.nakama.ui.theme.NakamaTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,8 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NakamaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    Router(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -35,24 +34,28 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun Router(){
+private fun Router(
+    modifier: Modifier
+){
     val navController = rememberNavController()
+
+    val splash = "/"
+    val login = "/login"
+    val home = "/home"
 
     NavHost(
         navController = navController,
-        startDestination = "/",
+        startDestination = splash,
 
     ){
-        composable("/"){
+        composable(splash){
             Splash()
         }
+        composable(login){
+            Login()
+        }
+        composable(home){
+            Home()
+        }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
