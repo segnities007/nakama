@@ -12,12 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.compose.NakamaTheme
 import com.segnities007.nakama.ui.screens.Home
 import com.segnities007.nakama.ui.screens.Login
 import com.segnities007.nakama.ui.screens.Splash
-import com.segnities007.nakama.ui.theme.NakamaTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -52,13 +51,13 @@ private fun Router(
 
     ){
         composable(splash){
-            Splash()
+            Splash(navController)
         }
         composable(login){
             Login()
         }
         composable(home){
-            Home()
+            Home(navController)
         }
     }
 }

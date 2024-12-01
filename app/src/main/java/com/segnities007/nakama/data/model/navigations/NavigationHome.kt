@@ -1,8 +1,8 @@
-package com.segnities007.nakama.data.model
+package com.segnities007.nakama.data.model.navigations
 
 import com.segnities007.nakama.R
 
-data class HomeInfo(
+data class NavigationHome(
     override val labels: List<String> = listOf(
         "Nakama",
         "Nikki",
@@ -24,5 +24,5 @@ data class HomeInfo(
         R.drawable.outline_notifications_24,
         R.drawable.outline_settings_24,
     ),
-): Info
+): Navigation
 
