@@ -15,10 +15,12 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.flow.MutableStateFlow
 import com.segnities007.nakama.R
+import com.segnities007.nakama.data.model.headers.Header
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -26,47 +28,32 @@ import javax.inject.Inject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Header(
-    title: String = "Nakama",
     modifier: Modifier = Modifier,
-    headerViewModel: HeaderViewModel, //状態あまり変わらないと思うから不使用
-    isArrowBack: Boolean = false,
-    menuVector: Int = R.drawable.baseline_menu_24,
-    backArrowVector: Int = R.drawable.baseline_arrow_back_24,
+    headerViewModel: HeaderViewModel = hiltViewModel(),
+    headerHome: Header,
+    navController: NavHostController,
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState()),
 ){
 
     CenterAlignedTopAppBar(
-        title = {Text(title)},
+        title = {Text(headerHome.title)},
         modifier = modifier,
         navigationIcon = {
-            if(isArrowBack) {
+            if(headerHome.navigationIcon != 0){
                 IconButton(
-                    onClick = { headerViewModel.backScreen() },
+                    onClick = { headerHome.navigationHandler(navController) },
                 ){
-                    Icon(painter = painterResource(backArrowVector), contentDescription = null)
-                }
-            } else {
-                IconButton(
-                    onClick = {},
-                ){
-                    Icon(painter = painterResource(menuVector), contentDescription = null)
+                    Icon(painter = painterResource(headerHome.navigationIcon), contentDescription = null)
                 }
             }
         },
         actions = {
-            if(isArrowBack) {
+            if(headerHome.actionIcon != 0)
                 IconButton(
                     onClick = {},
                 ){
-                    Icon(painter = painterResource(menuVector), contentDescription = null)
+                    Icon(painter = painterResource(headerHome.actionIcon), contentDescription = null)
                 }
-            } else { //TODO user icon
-//                IconButton(
-//                    onClick = {},
-//                ){
-//                    Icon(painter = painterResource(menuVector), contentDescription = null)
-//                }
-            }
         },
         scrollBehavior = scrollBehavior
     )
@@ -75,11 +62,6 @@ fun Header(
 @HiltViewModel
 class HeaderViewModel @Inject constructor(
 //    @ApplicationContext val context: Application,
-    val navController: NavHostController,
 ): ViewModel(){
-
-    fun backScreen(){
-        navController.popBackStack()
-    }
 
 }

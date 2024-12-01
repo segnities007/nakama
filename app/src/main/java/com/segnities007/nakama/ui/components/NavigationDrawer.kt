@@ -13,41 +13,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
-import com.segnities007.nakama.R
-import com.segnities007.nakama.data.model.HomeInfo
-import com.segnities007.nakama.data.model.Info
+import com.segnities007.nakama.data.model.navigations.Navigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.getValue
 import javax.inject.Inject
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun NavigationDrawer(
-    navigationDrawerViewModel: NavigationDrawerViewModel,
-    content: @Composable (Int) -> Unit,
-    info: Info
+    navigationDrawerViewModel: NavigationDrawerViewModel = hiltViewModel(),
+    content: @Composable () -> Unit,
+    navigation: Navigation
 ){
     val currentIndex by navigationDrawerViewModel.index.collectAsState()
+
     ModalNavigationDrawer(
         drawerContent = {
-            info.labels.forEachIndexed { index, label ->
                 ModalDrawerSheet {
                     Text("Drawer title", modifier = Modifier.padding(16.dp))
                     HorizontalDivider()
-                    NavigationDrawerItem(
-                        icon = {Icon(painter = painterResource(info.noSelectedVectors[index]), contentDescription = label)},
-                        label = { Text(label) },
-                        selected = false,
-                        onClick = {
-                            navigationDrawerViewModel.onItemSelected(index)
-                        }
+                    navigation.labels.forEachIndexed { index, label ->
+                        NavigationDrawerItem(
+                            icon = {Icon(painter = painterResource(navigation.noSelectedVectors[index]), contentDescription = label)},
+                            label = { Text(label) },
+                            selected = false,
+                            onClick = {
+                                navigationDrawerViewModel.onItemSelected(index)
+                            }
                     )
                 }
             }
         }
     ) {
-        content(currentIndex)
+        content()
     }
 }
 
