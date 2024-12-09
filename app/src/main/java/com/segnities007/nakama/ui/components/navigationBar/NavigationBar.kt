@@ -1,4 +1,4 @@
-package com.segnities007.nakama.ui.components
+package com.segnities007.nakama.ui.components.navigationBar
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -9,19 +9,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import com.segnities007.nakama.data.model.navigations.Navigation
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.segnities007.nakama.ui.screens.home.HomeViewModel
 
 @Composable
 fun NavigationBar(
-    navigationViewModel: NavigationViewModel = hiltViewModel(),
-    navigation: Navigation
+//    navigationViewModel: NavigationViewModel = hiltViewModel(),
+    navigation: Navigation,
+    homeViewModel: HomeViewModel,
 ) {
-    val currentIndex by navigationViewModel.index.collectAsState()
+    val currentIndex by homeViewModel.index.collectAsState()
 
     NavigationBar {
         navigation.labels.forEachIndexed { index, label ->
@@ -41,22 +38,10 @@ fun NavigationBar(
                 label = { Text(label) },
                 selected = currentIndex == index,
                 onClick = {
-                    navigationViewModel.onItemSelected(index)
+                    homeViewModel.updateIndex(index)
                 }
             )
         }
     }
 }
 
-@HiltViewModel
-class NavigationViewModel@Inject constructor(
-
-): ViewModel() {
-    private val _index = MutableStateFlow(0)
-    val index: StateFlow<Int> = _index
-
-    fun onItemSelected(newIndex: Int) {
-        _index.value = newIndex
-    }
-
-}

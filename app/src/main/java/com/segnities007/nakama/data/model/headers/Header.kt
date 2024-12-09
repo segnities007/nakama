@@ -6,5 +6,4 @@ interface Header {
     val navigationIcon: Int
     val actionIcon: Int
     val title: String
-    val navigationHandler: (NavHostController) -> Unit
 }
