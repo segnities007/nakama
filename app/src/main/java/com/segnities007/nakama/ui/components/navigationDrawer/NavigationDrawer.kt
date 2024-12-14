@@ -15,23 +15,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.segnities007.nakama.data.model.navigations.Navigation
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import com.segnities007.nakama.ui.screens.home.HomeViewModel
-import kotlinx.coroutines.launch
-
+import com.segnities007.nakama.data.model.drawer.DrawerViewModel
 @Composable
 fun NavigationDrawer(
-//    navigationDrawerViewModel: NavigationDrawerViewModel = hiltViewModel(),
-    homeViewModel: HomeViewModel,
+    viewModel: DrawerViewModel,
+    navigation: Navigation,
     content: @Composable () -> Unit,
-    navigation: Navigation
 ){
-    val currentIndex by homeViewModel.index.collectAsState()
-    val drawerState by homeViewModel.drawerState.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
+    val currentIndex by viewModel.index.collectAsState()
+    val drawerState by viewModel.drawerState.collectAsState()
     val title = "title"
 
     ModalNavigationDrawer(
+        gesturesEnabled = false,
         drawerState = DrawerState(drawerState),
         drawerContent = {
             ModalDrawerSheet {
@@ -43,12 +39,8 @@ fun NavigationDrawer(
                         label = { Text(label) },
                         selected = currentIndex == index,
                         onClick = {
-                            homeViewModel.updateIndex(index)
-                            coroutineScope.launch{
-                                //TODO move other screen
-                                homeViewModel.updateIndex(index)
-                                homeViewModel.closeDrawer()
-                            }
+                            viewModel.updateIndex(index)
+                            viewModel.closeDrawer()
                         }
                     )
                 }

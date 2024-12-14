@@ -10,8 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.segnities007.nakama.ui.theme.NakamaTheme
 import com.segnities007.nakama.ui.screens.home.Home
-import com.segnities007.nakama.ui.screens.Login
-import com.segnities007.nakama.ui.screens.Splash
+import com.segnities007.nakama.ui.screens.login.Login
+import com.segnities007.nakama.ui.screens.splash.Splash
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
