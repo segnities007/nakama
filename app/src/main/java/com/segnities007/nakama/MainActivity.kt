@@ -13,6 +13,7 @@ import com.segnities007.nakama.ui.screens.home.Home
 import com.segnities007.nakama.ui.screens.login.Login
 import com.segnities007.nakama.ui.screens.splash.Splash
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.log
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -37,10 +38,10 @@ private fun Router(){
 
     NavHost(
         navController = navController,
-        startDestination = home, //TODO change home to splash
+        startDestination = login,
     ){
         composable(splash){Splash(navController) }
-        composable(login){ Login() }
+        composable(login){ Login(navController = navController) }
         composable(home){ Home(navController) }
     }
 
