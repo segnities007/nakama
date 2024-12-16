@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +20,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // local.properties から Supabase の URL と Key を取得して BuildConfig に設定
+        val supabaseUrl = getLocalProperty("SUPABASE_URL")
+        val supabaseKey = getLocalProperty("SUPABASE_KEY") 
+
+        buildConfigField("String", "SUPABASE_URL", "\"$supabaseUrl\"")
+        buildConfigField("String", "SUPABASE_KEY", "\"$supabaseKey\"")
     }
 
     buildTypes {
@@ -38,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -64,7 +74,28 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.bom)
-//    implementation(libs.postgrest.kt)
-//    implementation(libs.ktor.client.android)
+
+
+    implementation(libs.postgrest.kt)
+    implementation(libs.storage.kt)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.utils)
+    implementation(libs.ktor.client.plugins)
+
 }
+
+
+
+// local.properties からプロパティを取得する関数
+fun getLocalProperty(key: String): String? {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { stream ->
+            properties.load(stream)
+        }
+    }
+    return properties.getProperty(key)
+}
+
