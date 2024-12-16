@@ -10,26 +10,42 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.segnities007.nakama.ui.theme.NakamaTheme
 import com.segnities007.nakama.ui.screens.home.Home
+import com.segnities007.nakama.ui.screens.home.HomeViewModel
 import com.segnities007.nakama.ui.screens.login.Login
+import com.segnities007.nakama.ui.screens.login.LoginViewModel
 import com.segnities007.nakama.ui.screens.splash.Splash
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.log
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val supabaseClient = createSupabaseClient(
+            supabaseUrl = BuildConfig.SUPABASE_URL,
+            supabaseKey = BuildConfig.SUPABASE_KEY
+        ){
+            install(Auth)
+            install(Postgrest)
+        }
+
         enableEdgeToEdge()
         setContent {
             NakamaTheme {
-                    Router()
+                    Router(supabaseClient = supabaseClient)
             }
         }
     }
 }
 
 @Composable
-private fun Router(){
+private fun Router(
+    supabaseClient: SupabaseClient
+){
 
     val navController = rememberNavController()
     val splash = "/"
@@ -38,11 +54,11 @@ private fun Router(){
 
     NavHost(
         navController = navController,
-        startDestination = login,
+        startDestination = splash,
     ){
-        composable(splash){Splash(navController) }
-        composable(login){ Login(navController = navController) }
-        composable(home){ Home(navController) }
+        composable(splash){Splash(navController = navController, supabaseClient = supabaseClient) }
+        composable(login){ Login(navController = navController, supabaseClient = supabaseClient, viewModel = LoginViewModel(supabaseClient)) }
+        composable(home){ Home(navController, viewModel = HomeViewModel(supabaseClient = supabaseClient)) }
     }
 
 }

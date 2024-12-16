@@ -4,15 +4,14 @@ import android.util.Log
 import androidx.compose.material3.DrawerValue
 import androidx.lifecycle.ViewModel
 import com.segnities007.nakama.data.model.drawer.DrawerViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.jan.supabase.SupabaseClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
-
+class HomeViewModel(
+    val supabaseClient: SupabaseClient,
 ): ViewModel(), DrawerViewModel {
+
     private val _index = MutableStateFlow(0)
     override val index: StateFlow<Int> = _index
 

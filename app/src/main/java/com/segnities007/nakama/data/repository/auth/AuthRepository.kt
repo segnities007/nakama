@@ -1,5 +1,6 @@
 package com.segnities007.nakama.data.repository.auth
 
+import android.util.Log
 import com.segnities007.nakama.data.model.auth.Auth
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -17,8 +18,10 @@ class AuthRepository(
                 this.password = password
             }
         }catch (e: RestException){
+            Log.d("AuthRepository class", "RestException, ${e.toString()}")
             return false
         }catch (e: Exception){
+            Log.d("AuthRepository class", "Exception, ${e.toString()}")
             return false
         }
         return true
@@ -31,8 +34,10 @@ class AuthRepository(
                 this.password = password
             }
         }catch (e: RestException){
+            Log.d("AuthRepository class", "RestException, ${e.toString()}")
             return false
         }catch (e: Exception){
+            Log.d("AuthRepository class", "Exception, ${e.toString()}")
             return false
         }
         return true
